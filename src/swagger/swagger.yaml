@@ -1,0 +1,242 @@
+openapi: 3.0.1
+info:
+  title: Setlist-Hero
+  version: 1.0.0
+  description: >-
+    This is the documentation for the API REST used in the backend of the ITP
+    Tracker app.
+externalDocs:
+  url: "https://github.com/ErickJBS/setlist-hero-express"
+  description: Project Repository
+servers:
+  - url: "http://localhost:5000/api"
+    description: Local development server
+tags:
+  - name: users
+    description: Operations about users
+security:
+  - BearerToken: []
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Return all users
+      operationId: getUsers
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+      tags:
+        - users
+  /users/{userId}:
+    get:
+      summary: Get user
+      description: ""
+      operationId: getUser
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to get
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+      tags:
+        - users
+    put:
+      tags:
+        - users
+      summary: Update user
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated fields
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+  /users/register:
+    post:
+      summary: Create new user
+      description: ""
+      operationId: createUser
+      requestBody:
+        description: New user data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        403:
+          description: Email already in use
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequestError"
+      tags:
+        - users
+  /users/login:
+    post:
+      summary: Log in an existing user
+      description: ""
+      operationId: login
+      requestBody:
+        description: Login credentials
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+      tags:
+        - users
+components:
+  securitySchemes:
+    name:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AuthToken:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Bearer token
+        user:
+          $ref: "#/components/schemas/User"
+    UserRegister:
+      required:
+        - email
+        - name
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          minLength: 8
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+
+    RequestError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: error description
+  responses:
+    BadRequest:
+      description: Missing or wrong parameters
+      content:
+        applicatiosn/json:
+          schema:
+            $ref: "#/components/schemas/RequestError"
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RequestError"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RequestError"
