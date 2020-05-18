@@ -17,7 +17,9 @@
     "express": "^4.17.1",
     "express-validator": "^6.4.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.9.13",
+    "swagger-ui-express": "^4.1.4",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"

@@ -1,12 +1,19 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
+
+
 
 class App {
     constructor(port, routers = []) {
         this.port = port
         this.app = new express()
 
+        const swaggerPath = path.join(__dirname, './swagger/swagger.yaml');
+        const swaggerDocument = yaml.load(swaggerPath);
+        this.app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         this.app.use(express.static(path.join(__dirname, 'public')))
 
         this.initializeMiddlewares();
