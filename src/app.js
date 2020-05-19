@@ -4,8 +4,6 @@ const path = require('path')
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
 
-
-
 class App {
     constructor(port, routers = []) {
         this.port = port
