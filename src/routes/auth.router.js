@@ -4,6 +4,7 @@ const AuthController = require('../controllers/auth.controller')
 
 const router = new Router();
 
+router.post('/auth/register', AuthController.userRegister)
 router.post('/auth/email', AuthController.emailAuth)
 router.get('/auth/google', AuthController.googleAuth)
 router.get('/auth/facebook', AuthController.facebookAuth)

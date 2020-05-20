@@ -2,7 +2,6 @@ const passport = require('passport')
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-// const TwitterStrategy = require('passport-twitter').Strategy;
 
 passport.use(new GoogleStrategy({
     clientID: process.env['GOOGLE_CLIENT_ID'],

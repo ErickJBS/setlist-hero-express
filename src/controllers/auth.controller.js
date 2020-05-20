@@ -2,11 +2,23 @@ const passport = require('passport')
 const AuthService = require('../services/auth.service')
 
 const emailAuth = async (request, response) => {
-    const { email, password } = request.body;
+    const { identifier, password } = request.body;
     try {
-        const token = await AuthService.login(email, password);
+        const token = await AuthService.login(identifier, password);
         response.cookie('jwt', JSON.stringify(token))
         response.redirect('/')
+    } catch (err) {
+        const error = err.errorCode || 500;
+        return response.status(error).json({ errors: [{ msg: err.message }] });
+    }
+}
+
+
+const userRegister = async (request, response) => {
+    const { email, displayName, password, username } = request.body;
+    try {
+        const user = await AuthService.register({ email, displayName, password, username })
+        return response.json(user);
     } catch (err) {
         const error = err.errorCode || 500;
         return response.status(error).json({ errors: [{ msg: err.message }] });
@@ -48,4 +60,11 @@ const facebookRedirect = async (request, response) => {
     }
 }
 
-module.exports = { emailAuth, googleAuth, facebookAuth, googleRedirect, facebookRedirect };
+module.exports = {
+    emailAuth,
+    googleAuth,
+    facebookAuth,
+    googleRedirect,
+    facebookRedirect,
+    userRegister
+};

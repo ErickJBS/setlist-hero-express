@@ -24,19 +24,19 @@ class AuthService {
         }
 
         const jwtSecret = process.env.JWT_SECRET;
+        // return jwt.sign(payload, jwtSecret, { });
         return {
             token: jwt.sign(payload, jwtSecret, { }),
             user
         };
     }
 
-    async register(email, displayName, password) {
+    async register({ email, displayName, password, username }) {
         const user = await User.findOne({ email });
         if (user) {
             throw new RequestError(403, `Email already registered (${user.authProvider})`);
         }
 
-        const username = getUsername(email);
         password = hashPassword(password);
         const authProvider = 'Email';
 
@@ -47,8 +47,11 @@ class AuthService {
         return UserService.create(data);
     }
 
-    async login(email, password) {
-        const user = await User.findOne({ email });
+    async login(identifier, password) {
+        let user = await User.findOne({ email: identifier });
+        if (!user) {
+            user = await User.findOne({ username: identifier });
+        }
         if (!user) {
             throw new RequestError(404, `Email not found`);
         }
@@ -72,6 +75,7 @@ class AuthService {
         }
 
         const jwtSecret = process.env.JWT_SECRET;
+        // return jwt.sign(payload, jwtSecret, { });
         return {
             token: jwt.sign(payload, jwtSecret, { }),
             user
