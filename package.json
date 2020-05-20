@@ -15,12 +15,18 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "express-validator": "^6.4.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.13",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-twitter": "^1.0.4",
     "swagger-ui-express": "^4.1.4",
-    "yamljs": "^0.3.0",
-    "passport": "^0.4.1"
+    "uuid": "^8.1.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"

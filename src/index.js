@@ -3,6 +3,7 @@ const App = require('./app')
 const Database = require('./database/db-connnection');
 
 dotenv.config();
+require('./passport.config')
 
 const port = process.env.PORT || 5000;
 const connectionUri = process.env.CONNECTION_URI;
@@ -11,7 +12,10 @@ if (!connectionUri) {
     throw new Error("Couldn't find CONNECTION_URI variable in this environment");
 }
 
-const app = new App(port, []);
+const app = new App(port, [
+    require('./routes/auth.router'),
+    require('./routes/users.router')
+]);
 
 const database = new Database(connectionUri);
 

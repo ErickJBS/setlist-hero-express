@@ -3,6 +3,9 @@ const cors = require('cors')
 const path = require('path')
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
+const passport = require('passport');
+const session = require('express-session')
+const { v4: uuidv4 } = require('uuid');
 
 class App {
     constructor(port, routers = []) {
@@ -12,10 +15,14 @@ class App {
         const swaggerPath = path.join(__dirname, './swagger/swagger.yaml');
         const swaggerDocument = yaml.load(swaggerPath);
         this.app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-        this.app.use(express.static(path.join(__dirname, 'public')))
+        this.app.use(express.static(path.join(__dirname, '..', 'public')))
 
         this.initializeMiddlewares();
         this.initializeControllers(routers);
+
+        this.app.get('*', (request, response) => {
+            response.sendFile('index.html', { root: 'public' });
+        });
     }
 
     initializeControllers(routers) {
@@ -26,7 +33,18 @@ class App {
 
     initializeMiddlewares() {
         this.app.use(express.json({ extended: false }))
-        this.app.use(cors())
+        this.app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+        this.app.use(passport.initialize())
+        this.app.set('trust proxy', 1) 
+        this.app.use(session({
+            resave: false,
+            secret: process.env.SESSION_SECRET,
+            saveUninitialized: true,
+            cookie: { secure: false },
+            genid: (request) => {
+                return uuidv4();
+            },
+        }))
     }
 
     async listen() {

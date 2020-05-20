@@ -3,117 +3,61 @@ info:
   title: Setlist-Hero
   version: 1.0.0
   description: >-
-    This is the documentation for the API REST used in the backend of the ITP
-    Tracker app.
+    This is the documentation for the API REST used in the backend of the Setlist-Hero App.
 externalDocs:
   url: "https://github.com/ErickJBS/setlist-hero-express"
-  description: Project Repository
+  description: Project Backend Repository
 servers:
   - url: "http://localhost:5000/api"
     description: Local development server
+  - url: "https://setlist-hero.wl.r.appspot.com"
+    description: Production server
 tags:
-  - name: users
-    description: Operations about users
+  - name: auth
+    description: Operations about authentication
 security:
   - BearerToken: []
 paths:
-  /users:
+  /auth/google:
     get:
-      summary: Get all users
-      description: Return all users
-      operationId: getUsers
-      responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
-        401:
-          $ref: "#/components/responses/Unauthorized"
       tags:
-        - users
-  /users/{userId}:
+        - auth
+      summary: Logs in an user using google credentials
+      description: "Route that redirects to the google oauth 2 log in"
+      responses:
+        "200":
+          description: OK
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: jwt=abcde12345; Path=/;
+          content:
+            text/html:
+              schema:
+                type: string
+  /auth/facebook:
     get:
-      summary: Get user
-      description: ""
-      operationId: getUser
-      parameters:
-        - name: userId
-          in: path
-          description: ID of the user to get
-          required: true
-          schema:
-            type: string
+      tags:
+        - auth
+      summary: Logs in an user using facebook credentials
+      description: "Route that redirects to the facebook oauth 2 log in"
       responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
+        "200":
+          description: OK
+          headers:
+            Set-Cookie:
               schema:
-                $ref: "#/components/schemas/User"
-        401:
-          $ref: "#/components/responses/Unauthorized"
-        404:
-          $ref: "#/components/responses/NotFound"
-      tags:
-        - users
-    put:
-      tags:
-        - users
-      summary: Update user
-      operationId: updateUser
-      parameters:
-        - name: userId
-          in: path
-          description: ID of user to update
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Updated fields
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/User"
-        required: true
-      responses:
-        200:
-          description: Successful operation
+                type: string
+                example: jwt=abcde12345; Path=/;
           content:
-            application/json:
+            text/html:
               schema:
-                $ref: "#/components/schemas/User"
-        401:
-          $ref: "#/components/responses/Unauthorized"
-        404:
-          $ref: "#/components/responses/NotFound"
-    delete:
-      tags:
-        - users
-      summary: Delete user
-      operationId: deleteUser
-      parameters:
-        - name: userId
-          in: path
-          description: ID of the user to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Successful operation
-          content: {}
-        401:
-          $ref: "#/components/responses/Unauthorized"
-        404:
-          $ref: "#/components/responses/NotFound"
-  /users/register:
+                type: string
+  /auth/register:
     post:
-      summary: Create new user
-      description: ""
+      summary: Register a new user
+      description: "Receives information about users and register that user if doesn't exists"
       operationId: createUser
       requestBody:
         description: New user data
@@ -128,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthToken"
+                $ref: "#/components/schemas/User"
         400:
           $ref: "#/components/responses/BadRequest"
         403:
@@ -138,11 +82,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/RequestError"
       tags:
-        - users
-  /users/login:
+        - auth
+  /auth/email:
     post:
       summary: Log in an existing user
-      description: ""
+      description: "Receives an user identifier (username or email) and a password and logs in the user"
       operationId: login
       requestBody:
         description: Login credentials
@@ -162,6 +106,11 @@ paths:
       responses:
         200:
           description: Successful operation
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: jwt=abcde12345; Path=/;
           content:
             application/json:
               schema:
@@ -171,7 +120,7 @@ paths:
         404:
           $ref: "#/components/responses/NotFound"
       tags:
-        - users
+        - auth
 components:
   securitySchemes:
     name:
@@ -192,22 +141,40 @@ components:
         - email
         - name
         - password
+        - username
       type: object
       properties:
         name:
+          type: string
+        username:
           type: string
         email:
           type: string
         password:
           minLength: 8
           type: string
-
+    UserLogin:
+      required:
+        - identifier
+        - password
+      type: object
+      properties:
+        identifier:
+          type: string
+        password:
+          type: string
     User:
       type: object
       properties:
         id:
           type: string
         email:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        authProvider:
           type: string
 
     RequestError:
