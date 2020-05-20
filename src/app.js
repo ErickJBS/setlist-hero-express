@@ -3,6 +3,7 @@ const cors = require('cors')
 const path = require('path')
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
+const passport = require('passport');
 
 class App {
     constructor(port, routers = []) {
@@ -27,6 +28,7 @@ class App {
     initializeMiddlewares() {
         this.app.use(express.json({ extended: false }))
         this.app.use(cors())
+        this.app.use(passport.initialize())
     }
 
     async listen() {
