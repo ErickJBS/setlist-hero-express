@@ -60,7 +60,7 @@ class AuthService {
             const msg = `Auth provider for this user is ${user.authProvider}`;
             throw new RequestError(400, msg)
         }
-        const match = comparePassword(user.password, password);
+        const match = await comparePassword(user.password, password);
         if (!match) {
             throw new RequestError(400, 'Wrong user password')
         }

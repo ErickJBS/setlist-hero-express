@@ -6,7 +6,7 @@ const emailAuth = async (request, response) => {
     try {
         const token = await AuthService.login(identifier, password);
         response.cookie('jwt', JSON.stringify(token))
-        response.redirect('/')
+        response.redirect('http://localhost:3000/');
     } catch (err) {
         const error = err.errorCode || 500;
         return response.status(error).json({ errors: [{ msg: err.message }] });
@@ -37,7 +37,7 @@ const googleRedirect = async (request, response) => {
             userId: id, displayName, email, authProvider: 'Google'
         });
         response.cookie('jwt', JSON.stringify(token))
-        response.redirect('/')
+        response.redirect('http://localhost:3000/')
     } catch (err) {
         const error = err.errorCode || 500;
         return response.status(error).json({ errors: [{ msg: err.message }] });
@@ -53,7 +53,7 @@ const facebookRedirect = async (request, response) => {
             userId: id, displayName, email, authProvider: 'Facebook'
         });
         response.cookie('jwt', JSON.stringify(token))
-        response.redirect('/')
+        response.redirect('http://localhost:3000/');
     } catch (err) {
         const error = err.errorCode || 500;
         return response.status(error).json({ errors: [{ msg: err.message }] });
