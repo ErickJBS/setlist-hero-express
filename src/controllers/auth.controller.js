@@ -6,7 +6,7 @@ const emailAuth = async (request, response) => {
     try {
         const token = await AuthService.login(identifier, password);
         response.cookie('jwt', JSON.stringify(token))
-        response.redirect('http://localhost:3000/');
+        return response.json(token)
     } catch (err) {
         const error = err.errorCode || 500;
         return response.status(error).json({ errors: [{ msg: err.message }] });
