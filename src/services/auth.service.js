@@ -24,7 +24,6 @@ class AuthService {
         }
 
         const jwtSecret = process.env.JWT_SECRET;
-        // return jwt.sign(payload, jwtSecret, { });
         return {
             token: jwt.sign(payload, jwtSecret, { }),
             user
@@ -75,7 +74,6 @@ class AuthService {
         }
 
         const jwtSecret = process.env.JWT_SECRET;
-        // return jwt.sign(payload, jwtSecret, { });
         return {
             token: jwt.sign(payload, jwtSecret, { }),
             user

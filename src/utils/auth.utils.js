@@ -6,7 +6,7 @@ const hashPassword = async (password) => {
 }
 
 const comparePassword = async (hashed, password) => {
-    return bcrypt.compare(hashed, password);
+    return bcrypt.compare(password, hashed);
 }
 
 const getUsername = (email) => {
