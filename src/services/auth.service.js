@@ -37,7 +37,7 @@ class AuthService {
             throw new RequestError(403, `Email already registered (${user.authProvider})`);
         }
 
-        password = hashPassword(password);
+        password = await hashPassword(password);
         const authProvider = 'Email';
 
         const data = {
