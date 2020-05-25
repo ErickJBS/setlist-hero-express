@@ -26,6 +26,15 @@ const UserSchema = new Schema({
         enum : ['google', 'facebook', 'email'],
         required: true
     }
+}, {
+    toJSON: {
+        versionKey: false,
+        virtuals: true,
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    }
 })
 
 module.exports = model('User', UserSchema)

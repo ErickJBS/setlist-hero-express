@@ -14,6 +14,8 @@ if (!connectionUri) {
 
 const app = new App(port, [
     require('./routes/auth.router'),
+    require('./routes/band.router'),
+    require('./routes/song.router'),
     require('./routes/users.router')
 ]);
 
