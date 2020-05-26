@@ -7,4 +7,4 @@ class MusicianService extends BaseService {
     }
 }
 
-module.exports = MusicianService();
+module.exports = new MusicianService();

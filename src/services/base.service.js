@@ -19,7 +19,7 @@ class BaseService {
         return newData.save();
     }
 
-    async find({ filter, skip, limit, sort }) {
+    async find({ filter, skip, limit, sort } = {}) {
         return this.model.find(filter)
             .limit(limit).skip(skip).sort(sort);
     }

@@ -15,8 +15,11 @@ if (!connectionUri) {
 const app = new App(port, [
     require('./routes/auth.router'),
     require('./routes/band.router'),
+    require('./routes/event.router'),
+    require('./routes/musician.router'),
     require('./routes/song.router'),
-    require('./routes/users.router')
+    require('./routes/users.router'),
+    require('./routes/storage.router')
 ]);
 
 const database = new Database(connectionUri);

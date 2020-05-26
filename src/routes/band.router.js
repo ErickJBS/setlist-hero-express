@@ -15,9 +15,9 @@ router.get('/band', auth, BandController.getBands)
 router.post('/band', [
     auth,
     check('name', 'name is required').exists().notEmpty(),
-    check('logo', 'logo must be a valid URL').isURL(),
+    check('logo', 'logo must be a valid URL').isURL({allow_underscores:true, allow_protocol_relative_urls:true, require_tld:false}),
     check('genres', 'genres must be an array of string').isArray(),
-    check('mananger').exists().withMessage('manager is required')
+    check('manager').exists().withMessage('manager is required')
         .isMongoId().withMessage('Invalid manager id'),
     errorValidation
 ], BandController.createBand)

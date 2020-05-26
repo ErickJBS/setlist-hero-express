@@ -7,4 +7,4 @@ class EventService extends BaseService {
     }
 }
 
-module.exports = EventService();
+module.exports = new EventService();

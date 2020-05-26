@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
 const passport = require('passport');
 const session = require('express-session')
+const fileUpload = require('express-fileupload');
 const { v4: uuidv4 } = require('uuid');
 
 class App {
@@ -32,6 +33,9 @@ class App {
     }
 
     initializeMiddlewares() {
+        this.app.use(fileUpload({
+            createParentPath: true
+        }));
         this.app.use(express.json({ extended: false }))
         this.app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
         this.app.use(passport.initialize())
