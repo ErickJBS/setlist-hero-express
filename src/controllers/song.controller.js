@@ -1,4 +1,4 @@
-const SongService = require('../services/users.service')
+const SongService = require('../services/song.service')
 
 const getSongById = async (request, response) => {
     const songId = request.params.songId;
@@ -22,9 +22,9 @@ const getSongs = async (request, response) => {
 }
 
 const createSong = async (request, response) => {
-    const { name, band, tags, lyrics, sheets } = request.body;
+    const { name, band, tempo, tags, lyrics, sheets } = request.body;
     try {
-        const fields = { name, band, tags, lyrics, sheets }
+        const fields = { name, band, tempo, tags, lyrics, sheets }
         const song = await SongService.create(fields);
         return response.json(song);
     } catch (err) {
@@ -35,7 +35,7 @@ const createSong = async (request, response) => {
 
 const updateSong = async (request, response) => {
     const songId = request.paramas.songId;
-    const { name, band, tags, lyrics, sheets } = request.body;
+    const { name, tags, lyrics, sheets } = request.body;
     try {
         const fields = { name, band, tags, lyrics, sheets }
         const updatedSong = await SongService.update(songId, fields);

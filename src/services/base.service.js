@@ -25,7 +25,7 @@ class BaseService {
     }
 
     async findById(id) {
-        const obj = this.model.findById(id);
+        const obj = await this.model.findById(id);
         if (!obj) {
             throw new RequestError(404, `Couldn't find ${this.modelName} with id ${id}`);
         }
@@ -34,7 +34,7 @@ class BaseService {
     }
 
     async update(id, fields) {
-        const obj = this.model.findById(id);
+        const obj = await this.model.findById(id);
         if (!obj) {
             throw new RequestError(404, `Couldn't find ${this.modelName} with id ${id}`);
         }

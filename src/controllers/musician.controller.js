@@ -13,7 +13,7 @@ const getMusicianById = async (request, response) => {
 
 const getMusicians = async (request, response) => {
     try {
-        const musicians = await MusicianService.find();
+        const musicians = await MusicianService.findByFilter(request.query);
         response.json(musicians);
     } catch (err) {
         const error = err.errorCode || 500;
@@ -22,9 +22,9 @@ const getMusicians = async (request, response) => {
 }
 
 const createMusician = async (request, response) => {
-    const { instrument, band, user } = request.body;
+    const { instrument, band, email } = request.body;
     try {
-        const fields = { instrument, band, user }
+        const fields = { instrument, band, email }
         const musician = await MusicianService.create(fields);
         return response.json(musician);
     } catch (err) {
@@ -34,7 +34,7 @@ const createMusician = async (request, response) => {
 }
 
 const updateMusician = async (request, response) => {
-    const musicianId = request.paramas.musicianId;
+    const musicianId = request.params.musicianId;
     const { instrument } = request.body;
     try {
         const fields = { instrument }
@@ -47,7 +47,7 @@ const updateMusician = async (request, response) => {
 }
 
 const deleteMusician = async (request, response) => {
-    const musicianId = request.paramas.musicianId;
+    const musicianId = request.params.musicianId;
     try {
         await MusicianService.delete(musicianId);
         return response.send();

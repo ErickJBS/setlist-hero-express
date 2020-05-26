@@ -22,10 +22,10 @@ const getEvents = async (request, response) => {
 }
 
 const createEvent = async (request, response) => {
-    const { name, date, location, band, designer, setlist } = request.body;
+    const { name, date, location, tags, band, designer, setlist } = request.body;
     try {
         const fields = {
-            name, date, location, band, designer, setlist
+            name, date, location, band, tags, designer, setlist
         }
         const event = await EventService.create(fields);
         return response.json(event);

@@ -16,13 +16,14 @@ router.post('/musician', [
     auth,
     check('instrument', 'instrument is required').exists().notEmpty(),
     check('band').exists().withMessage('band is required')
-        .isMongoId('invalid band id format'),
+        .isMongoId().withMessage('invalid band id format'),
+    check('email', 'email is required').exists().notEmpty().isEmail(),
     errorValidation
 ], MusicianController.createMusician)
 router.put('/musician/:musicianId', [
     auth,
     check('musicianId', 'invalid musicianId').isMongoId(),
-    check('instrument', 'instrument is required').exists().notEmpty(),
+    check('instrument', 'instrument can not be empty').optional().notEmpty(),
     errorValidation
 ], MusicianController.updateMusician);
 router.delete('/musician/:musicianId', [

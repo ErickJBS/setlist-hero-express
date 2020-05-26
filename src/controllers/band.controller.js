@@ -13,7 +13,7 @@ const getBandById = async (request, response) => {
 
 const getBands = async (request, response) => {
     try {
-        const bands = await BandService.find();
+        const bands = await BandService.findByFilter(request.query);
         response.json(bands);
     } catch (err) {
         const error = err.errorCode || 500;
@@ -36,7 +36,7 @@ const createBand = async (request, response) => {
 }
 
 const updateBand = async (request, response) => {
-    const bandId = request.paramas.bandId;
+    const bandId = request.params.bandId;
     const { name, description, logo, genres, manager } = request.body;
     try {
         const fields = {
@@ -51,7 +51,7 @@ const updateBand = async (request, response) => {
 }
 
 const deleteBand = async (request, response) => {
-    const bandId = request.paramas.bandId;
+    const bandId = request.params.bandId;
     try {
         await BandService.delete(bandId);
         return response.send();

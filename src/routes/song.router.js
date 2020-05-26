@@ -14,20 +14,23 @@ router.get('/song/:songId', [
 router.get('/song', auth, SongController.getSongs)
 router.post('/song', [
     auth,
+    check('tempo').exists().withMessage('tempo is required')
+        .isNumeric().withMessage('tempo must be a number'),
     check('name', 'name is required').exists().notEmpty(),
-    check('lyrics', 'lyrics is required').exists().notEmpty(),
     check('band').exists().withMessage('band is required')
-        .isMongoId('invalid band id format'),
-    check('tags', 'tags must be an array of string').isArray(),
-    check('sheets', 'sheets must be an array of { instrument: string, content: string }').isArray(),
+        .isMongoId().withMessage('invalid band id format'),
+    check('tags', 'tags must be an array of string').optional().isArray(),
+    check('sheets', 'sheets must be an array of { instrument: string, content: string }')
+        .optional().isArray(),
     errorValidation
 ], SongController.createSong)
 router.put('/song/:songId', [
     auth,
-    check('name', 'name is required').exists().notEmpty(),
-    check('lyrics', 'lyrics is required').exists().notEmpty(),
-    check('tags', 'tags must be an array of string').isArray(),
-    check('sheets', 'sheets must be an array of { instrument: string, content: string }').isArray(),
+    check('tempo').optional().isNumeric().withMessage('tempo must be a number'),
+    check('name', 'name can not be empty').optional().notEmpty(),
+    check('tags', 'tags must be an array of string').optional().isArray(),
+    check('sheets', 'sheets must be an array of { instrument: string, content: string }')
+        .optional().isArray(),
     errorValidation
 ], SongController.updateSong);
 router.delete('/song/:songId', [

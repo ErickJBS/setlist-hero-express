@@ -14,27 +14,26 @@ router.get('/event/:eventId', [
 router.get('/event', auth, EventController.getEvents)
 router.post('/event', [
     auth,
+    check('tags', 'tags must be an array of string').optional().isArray(),
     check('name', 'name is required').exists().notEmpty(),
     check('date', 'date is required').exists().toDate(),
     check('location', 'location is required').exists().notEmpty(),
     check('band').exists().withMessage('band is required')
-        .isMongoId('invalid band id format'),
+        .isMongoId().withMessage('invalid band id format'),
     check('designer').exists().withMessage('designer is required')
-        .isMongoId('invalid designer id format'),
-    check('setlist', 'setlist must be an array').isArray(),
+        .isEmail().withMessage('designer must be a valid email'),
+    check('setlist', 'setlist must be an array').optional().isArray(),
     errorValidation
 ], EventController.createEvent)
 router.put('/event/:eventId', [
     auth,
+    check('tags', 'tags must be an array of string').optional().isArray(),
     check('eventId', 'invalid eventId').isMongoId(),
-    check('name', 'name is required').exists().notEmpty(),
-    check('date', 'date is required').exists().toDate(),
-    check('location', 'location is required').exists().notEmpty(),
-    check('band').exists().withMessage('band is required')
-        .isMongoId('invalid band id format'),
-    check('designer').exists().withMessage('designer is required')
-        .isMongoId('invalid designer id format'),
-    check('setlist', 'setlist must be an array').isArray(),
+    check('date', 'date must be a valid date').optional().toDate(),
+    check('location', 'location can not be empty').optional().notEmpty(),
+    check('band').optional().isMongoId().withMessage('invalid band id format'),
+    check('designer').optional().isEmail().withMessage('designer must be a valid email'),
+    check('setlist', 'setlist must be an array').optional().isArray(),
     errorValidation
 ], EventController.updateEvent);
 router.delete('/event/:eventId', [

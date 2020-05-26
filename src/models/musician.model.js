@@ -11,9 +11,8 @@ const MusicianSchema = new Schema({
         ref: 'Band',
         required: true
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+    email: {
+        type: String,
         required: true
     },
 }, {
@@ -26,5 +25,12 @@ const MusicianSchema = new Schema({
         }
     }
 })
+
+MusicianSchema.virtual('user', {
+    ref: 'User',
+    localField: 'email',
+    foreignField: 'email',
+    justOne: true
+});
 
 module.exports = model('Musician', MusicianSchema)

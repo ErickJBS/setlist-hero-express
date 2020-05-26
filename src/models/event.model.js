@@ -19,11 +19,9 @@ const EventSchema = new Schema({
         ref: 'Band',
         required: true
     },
-    designer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
+    tags: [{
+        type: String
+    }],
     setlist: [{
         name: {
             type: String,
@@ -45,5 +43,12 @@ const EventSchema = new Schema({
         }
     }
 })
+
+EventSchema.virtual('designer', {
+    ref: 'User',
+    localField: 'designer',
+    foreignField: 'email',
+    justOne: true
+});
 
 module.exports = model('Event', EventSchema)
