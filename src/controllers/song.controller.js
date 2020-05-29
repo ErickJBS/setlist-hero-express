@@ -34,7 +34,7 @@ const createSong = async (request, response) => {
 }
 
 const updateSong = async (request, response) => {
-    const songId = request.paramas.songId;
+    const songId = request.params.songId;
     const { name, tags, lyrics, sheets } = request.body;
     try {
         const fields = { name, band, tags, lyrics, sheets }
@@ -47,7 +47,7 @@ const updateSong = async (request, response) => {
 }
 
 const deleteSong = async (request, response) => {
-    const songId = request.paramas.songId;
+    const songId = request.params.songId;
     try {
         await SongService.delete(songId);
         return response.send();

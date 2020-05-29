@@ -18,7 +18,7 @@ class BandService extends BaseService {
         try {
             const band = await this.findById(id);
             band.active = false;
-            return this.update(id, active);
+            return this.update(id, {active: band.active});
         } catch (e) {
             throw e;
         }

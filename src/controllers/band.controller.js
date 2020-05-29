@@ -37,10 +37,10 @@ const createBand = async (request, response) => {
 
 const updateBand = async (request, response) => {
     const bandId = request.params.bandId;
-    const { name, description, logo, genres, manager } = request.body;
+    const { name, description, logo, genres, active, manager } = request.body;
     try {
         const fields = {
-            name, description, logo, genres, manager
+            name, description, logo, genres, manager, active
         }
         const updatedBand = await BandService.update(bandId, fields);
         return response.json(updatedBand);

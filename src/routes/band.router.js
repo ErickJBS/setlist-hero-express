@@ -39,6 +39,7 @@ router.put('/band/:bandId', [
         allow_protocol_relative_urls: true,
         require_tld: false
     }),
+    check('active').optional().isBoolean().withMessage('active must be boolean'),
     check('genres', 'genres must be an array of string').optional().isArray(),
     check('manager', 'Invalid manager id').optional().isMongoId(),
     errorValidation

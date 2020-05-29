@@ -19,6 +19,10 @@ const EventSchema = new Schema({
         ref: 'Band',
         required: true
     },
+    designer: {
+        type: String,
+        required: true
+    },
     tags: [{
         type: String
     }],
@@ -44,7 +48,7 @@ const EventSchema = new Schema({
     }
 })
 
-EventSchema.virtual('designer', {
+EventSchema.virtual('organizer', {
     ref: 'User',
     localField: 'designer',
     foreignField: 'email',

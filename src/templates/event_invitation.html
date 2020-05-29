@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+        a {
+            font-weight: bold;
+            text-decoration: none;
+            color: #000;
+        }
+        .title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>You've been added as Live Experience Designer in a new event!</h3>
+    <table style="width:100%">
+        <tr>
+            <td class="title">Manager</td>
+            <td>{{manager}}</td>
+        </tr>
+        <tr>
+            <td class="title">Band</td>
+            <td>{{band}}</td>
+        </tr>
+        <tr>
+            <td class="title">Event</td>
+            <td>{{event}}</td>
+        </tr>
+        <tr>
+            <td class="title">Date</td>
+            <td>{{date}}</td>
+        </tr>
+    </table>
+    <p><a href="{{url}}">Create an account</a> and start enjoying the benefits of using our platform.</p>
+</body>
+
+</html>

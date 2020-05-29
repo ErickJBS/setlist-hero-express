@@ -5,6 +5,10 @@ class UserService extends BaseService {
     constructor() {
         super(User);        
     }
+
+    async findByEmail(email) {
+        return User.findOne({ email });
+    }
 }
 
 module.exports = new UserService();
