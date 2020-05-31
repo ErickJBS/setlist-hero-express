@@ -13,7 +13,7 @@ const getSongById = async (request, response) => {
 
 const getSongs = async (request, response) => {
     try {
-        const songs = await SongService.find();
+        const songs = await SongService.findByFilter(request.query);
         response.json(songs);
     } catch (err) {
         const error = err.errorCode || 500;
@@ -22,9 +22,9 @@ const getSongs = async (request, response) => {
 }
 
 const createSong = async (request, response) => {
-    const { name, band, tempo, tags, lyrics, sheets } = request.body;
+    const { name, band, tempo, tags, lyrics, chords, sheets } = request.body;
     try {
-        const fields = { name, band, tempo, tags, lyrics, sheets }
+        const fields = { name, band, tempo, tags, chords, lyrics, sheets }
         const song = await SongService.create(fields);
         return response.json(song);
     } catch (err) {
@@ -35,9 +35,9 @@ const createSong = async (request, response) => {
 
 const updateSong = async (request, response) => {
     const songId = request.params.songId;
-    const { name, tags, lyrics, sheets } = request.body;
+    const { name, tags, tempo, chords, lyrics, sheets } = request.body;
     try {
-        const fields = { name, band, tags, lyrics, sheets }
+        const fields = { name, tempo, chords, band, tags, lyrics, sheets }
         const updatedSong = await SongService.update(songId, fields);
         return response.json(updatedSong);
     } catch (err) {

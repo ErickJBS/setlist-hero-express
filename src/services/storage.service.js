@@ -39,11 +39,11 @@ class StorageService {
         return response;
     }
 
-    async saveImage(file) {
-        const imageMimeTypes = [ 'image/png', 'image/jpeg'];
+    async uploadFile(file) {
+        const imageMimeTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ];
         const type = file.mimetype;
         if (!imageMimeTypes.includes(type)) {
-            throw new RequestError(400, 'Provided file is not an image')
+            throw new RequestError(400, 'Provided file is not a valid format')
         }
         return this.saveFile(file);
     }

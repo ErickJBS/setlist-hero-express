@@ -1,9 +1,9 @@
 const StorageService = require('../services/storage.service')
 
-const uploadImage = async (request, response) => {
-    const image = request.files.data;
+const uploadFile = async (request, response) => {
+    const fileData = request.files.data;
     try {
-        const file = await StorageService.saveImage(image);
+        const file = await StorageService.saveFile(fileData);
         return response.json(file);
     } catch (err) {
         const error = err.errorCode || 500;
@@ -12,5 +12,5 @@ const uploadImage = async (request, response) => {
 }
 
 module.exports = {
-    uploadImage
+    uploadFile
 };

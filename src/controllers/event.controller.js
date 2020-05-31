@@ -13,7 +13,7 @@ const getEventById = async (request, response) => {
 
 const getEvents = async (request, response) => {
     try {
-        const events = await EventService.find();
+        const events = await EventService.findByFilter(request.query);
         response.json(events);
     } catch (err) {
         const error = err.errorCode || 500;
@@ -22,10 +22,10 @@ const getEvents = async (request, response) => {
 }
 
 const createEvent = async (request, response) => {
-    const { name, date, location, tags, band, designer, setlist } = request.body;
+    const { name, date, location, tags, tour, band, designer, setlist } = request.body;
     try {
         const fields = {
-            name, date, location, band, tags, designer, setlist
+            name, date, location, tour, band, tags, designer, setlist
         }
         const event = await EventService.create(fields);
         return response.json(event);
@@ -37,10 +37,10 @@ const createEvent = async (request, response) => {
 
 const updateEvent = async (request, response) => {
     const eventId = request.paramas.eventId;
-    const { name, date, location, band, designer, setlist } = request.body;
+    const { name, date, location, band, tour, designer, setlist } = request.body;
     try {
         const fields = {
-            name, date, location, band, designer, setlist
+            name, date, location, band, tour, designer, setlist
         }
         const updatedEvent = await EventService.update(eventId, fields);
         return response.json(updatedEvent);

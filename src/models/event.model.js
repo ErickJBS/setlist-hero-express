@@ -10,6 +10,9 @@ const EventSchema = new Schema({
         type: Date,
         require: true
     },
+    tour: {
+        type: String
+    },
     location: {
         type: String,
         required: true

@@ -11,7 +11,11 @@ router.get('/song/:songId', [
     check('songId', 'invalid songId').isMongoId(),
     errorValidation
 ], SongController.getSongById)
-router.get('/song', auth, SongController.getSongs)
+router.get('/song', [
+    auth,
+    check('band').optional().isMongoId().withMessage('invalid band id format'),
+    errorValidation
+], SongController.getSongs)
 router.post('/song', [
     auth,
     check('tempo').exists().withMessage('tempo is required')

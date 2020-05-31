@@ -11,7 +11,20 @@ router.get('/event/:eventId', [
     check('eventId', 'invalid eventId').isMongoId(),
     errorValidation
 ], EventController.getEventById)
-router.get('/event', auth, EventController.getEvents)
+router.get('/event', [
+    auth,
+    check('designer').optional()
+        .isMongoId().withMessage('invalid designer id format'),
+    check('manager').optional()
+        .isMongoId().withMessage('invalid manager id format'),
+    check('musician').optional()
+        .isMongoId().withMessage('invalid musician id format'),
+    check('band').optional()
+        .isMongoId().withMessage('invalid band id format'),
+    check('startDate').optional().toDate(),
+    check('endDate').optional().toDate(),
+    errorValidation
+], EventController.getEvents)
 router.post('/event', [
     auth,
     check('tags', 'tags must be an array of string').optional().isArray(),

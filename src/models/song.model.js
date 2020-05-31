@@ -15,7 +15,10 @@ const SongSchema = new Schema({
         type: String
     }],
     lyrics: {
-        type: String
+        type: Object
+    },
+    chords: {
+        type: Object
     },
     tempo: {
         type: Number,

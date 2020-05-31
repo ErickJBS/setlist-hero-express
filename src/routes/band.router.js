@@ -15,6 +15,10 @@ router.get('/band', [
     auth,
     check('manager').optional()
         .isMongoId().withMessage('Invalid manager id'),
+    check('active').optional()
+        .isBoolean().withMessage('active must be boolean'),
+    check('musician').optional()
+        .isMongoId().withMessage('Invalid musician id'),
     errorValidation
 ], BandController.getBands)
 router.post('/band', [
