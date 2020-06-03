@@ -35,7 +35,7 @@ const createSong = async (request, response) => {
 
 const updateSong = async (request, response) => {
     const songId = request.params.songId;
-    const { name, tags, tempo, chords, lyrics, sheets } = request.body;
+    const { name, tags, tempo, chords, lyrics, sheets, band } = request.body;
     try {
         const fields = { name, tempo, chords, band, tags, lyrics, sheets }
         const updatedSong = await SongService.update(songId, fields);

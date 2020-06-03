@@ -39,11 +39,20 @@ class StorageService {
         return response;
     }
 
-    async uploadFile(file) {
-        const imageMimeTypes = [ 'image/png', 'image/jpeg', 'application/pdf' ];
+    async uploadPdf(file) {
+        const imageMimeTypes = [ 'application/pdf' ];
         const type = file.mimetype;
         if (!imageMimeTypes.includes(type)) {
-            throw new RequestError(400, 'Provided file is not a valid format')
+            throw new RequestError(400, 'Provided file is not PDF')
+        }
+        return this.saveFile(file);
+    }
+
+    async uploadImage(file) {
+        const imageMimeTypes = [ 'image/png', 'image/jpeg' ];
+        const type = file.mimetype;
+        if (!imageMimeTypes.includes(type)) {
+            throw new RequestError(400, 'Provided file is not an image')
         }
         return this.saveFile(file);
     }

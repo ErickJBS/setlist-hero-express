@@ -74,6 +74,19 @@ class EventService extends BaseService {
         return normalizeMongoId(events);
     }
 
+    async findById(id) {
+        const event = await Event.findById(id)
+            .populate({
+                path: 'setlist.songs',
+                select: 'name tags tempo'
+            })
+        if (!event) {
+            throw new RequestError(404, `Couldn't find event with id ${id}`);
+        }
+
+        return event;
+    }
+
     async create(event) {
         const email = event.designer;
         const user = await UserService.findByEmail(email);
