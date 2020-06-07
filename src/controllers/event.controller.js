@@ -36,11 +36,11 @@ const createEvent = async (request, response) => {
 }
 
 const updateEvent = async (request, response) => {
-    const eventId = request.paramas.eventId;
-    const { name, date, location, band, tour, designer, setlist } = request.body;
+    const eventId = request.params.eventId;
+    const { name, date, location, tags, tour, designer, setlist } = request.body;
     try {
         const fields = {
-            name, date, location, band, tour, designer, setlist
+            name, date, location, tags, tour, designer, setlist
         }
         const updatedEvent = await EventService.update(eventId, fields);
         return response.json(updatedEvent);
@@ -51,7 +51,7 @@ const updateEvent = async (request, response) => {
 }
 
 const deleteEvent = async (request, response) => {
-    const eventId = request.paramas.eventId;
+    const eventId = request.params.eventId;
     try {
         await EventService.delete(eventId);
         return response.send();
